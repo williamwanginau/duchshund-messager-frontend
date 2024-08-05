@@ -1,9 +1,11 @@
-import Chat from "./Chat";
+// import Chat from "./Chat";
+import AuthPage from "./AuthPage";
 
 function App() {
   return (
     <div className="App">
-      <Chat />
+      <AuthPage />
+      {/* <Chat /> */}
     </div>
   );
 }
