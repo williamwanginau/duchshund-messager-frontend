@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import io from "socket.io-client";
-import { v4 as uuidv4 } from "uuid";
+import { UserContext } from "./context/UserContext";
 
 const socket = io("http://localhost:3000");
 
 const Chat = () => {
+  const { user } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [sender, setSender] = useState(uuidv4());
+  const [sender, setSender] = useState("");
   const [recipient, setRecipient] = useState("");
   const [senderUsername, setSenderUsername] = useState("");
 
@@ -39,6 +40,13 @@ const Chat = () => {
 
   return (
     <div>
+      {user && (
+        <div>
+          <p>Username: {user.username}</p>
+          <p>Email: {user.email}</p>
+          <p>ID: {user.id}</p>
+        </div>
+      )}
       <input
         type="text"
         placeholder="Your name"

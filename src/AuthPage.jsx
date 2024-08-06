@@ -1,10 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "./context/UserContext";
 
 const AuthPage = () => {
+  const { login } = useContext(UserContext);
+
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp < currentTime) {
+          localStorage.removeItem("token");
+        } else {
+          setUsername(decodedToken.username);
+          login({
+            username: decodedToken.username,
+            email: decodedToken.email,
+            id: decodedToken.userId,
+          });
+          navigate("/chat");
+        }
+      } catch (err) {
+        console.error("Invalid token");
+        localStorage.removeItem("jwtToken");
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +55,8 @@ const AuthPage = () => {
 
         const data = await response.json();
         localStorage.setItem("token", data.token);
+
+        navigate("/chat");
       } catch (err) {
         console.log("Error registering:", err);
       }
