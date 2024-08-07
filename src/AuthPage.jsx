@@ -2,10 +2,10 @@ import { useState, useEffect, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
+import { loginAPI, registerAPI } from "./api/authAPI";
 
 const AuthPage = () => {
-  const { login } = useContext(UserContext);
-
+  const { setUserData } = useContext(UserContext);
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +23,7 @@ const AuthPage = () => {
           localStorage.removeItem("token");
         } else {
           setUsername(decodedToken.username);
-          login({
+          setUserData({
             username: decodedToken.username,
             email: decodedToken.email,
             id: decodedToken.userId,
@@ -41,34 +41,22 @@ const AuthPage = () => {
     e.preventDefault();
     if (isLogin) {
       try {
-        const response = await fetch("http://localhost:3000/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        });
+        const response = await loginAPI(email, password);
+
+        console.log(response);
 
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error(response.message || "Network response was not ok");
         }
 
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-
+        localStorage.setItem("token", response.data.token);
         navigate("/chat");
       } catch (err) {
         console.log("Error registering:", err);
       }
     } else {
       try {
-        const response = await fetch("http://localhost:3000/auth/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, email, password }),
-        });
+        const response = await registerAPI(username, email, password);
 
         if (!response.ok) {
           throw new Error("Network response was not OK");
