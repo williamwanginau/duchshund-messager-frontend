@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "./context/UserContext";
 import useFetchUser from "./hooks/useFetchUser";
 import { fetchFriendsAPI } from "./api/userAPI";

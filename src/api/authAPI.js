@@ -1,26 +1,16 @@
 import apiClient from "./apiClient";
 
 export const loginAPI = async (email, password) => {
-  try {
-    const res = await apiClient.post("auth/login", {
-      email,
-      password,
-    });
-    return res.data;
-  } catch (error) {
-    console.error(error);
-  }
+  return apiClient.post("auth/login", {
+    email,
+    password,
+  });
 };
 
 export const registerAPI = async (username, email, password) => {
-  try {
-    const res = await apiClient.post("auth/register", {
-      username,
-      email,
-      password,
-    });
-    return res.data;
-  } catch (error) {
-    console.error(error);
-  }
+  return apiClient.post("auth/register", {
+    username,
+    email,
+    password,
+  });
 };

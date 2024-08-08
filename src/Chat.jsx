@@ -1,9 +1,10 @@
-import { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import io from "socket.io-client";
 import { UserContext } from "./context/UserContext";
 import { useNavigate } from "react-router-dom";
 import FriendsList from "./FriendsList";
 import { throttle } from "lodash";
+import Button from "@mui/material/Button";
 
 import { addFriendAPI } from "./api/userAPI";
 
@@ -89,7 +90,6 @@ const Chat = () => {
     <div>
       <FriendsList />
       <button onClick={handleLogout}>Logout</button>
-
       <input
         type="text"
         placeholder="Add friend"
@@ -103,7 +103,7 @@ const Chat = () => {
       >
         Add
       </button>
-
+      <Button variant="contained">Hello world</Button>
       {user && (
         <div>
           <p>Username: {user.username}</p>
@@ -118,21 +118,18 @@ const Chat = () => {
         value={sender}
         onChange={(e) => setSender(e.target.value)}
       />
-
       <input
         type="text"
         placeholder="Recipient"
         value={recipient}
         onChange={(e) => setRecipient(e.target.value)}
       ></input>
-
       <input
         type="text"
         placeholder="Username"
         value={senderUsername}
         onChange={(e) => setSenderUsername(e.target.value)}
       ></input>
-
       <ul>
         {messages.map((msg, index) => (
           <li key={index}>
@@ -145,7 +142,7 @@ const Chat = () => {
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-        />
+        />{" "}
         <button type="submit">Send</button>
       </form>
     </div>

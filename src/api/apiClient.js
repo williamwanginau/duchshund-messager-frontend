@@ -18,16 +18,12 @@ apiClient.interceptors.request.use((config) => {
 });
 
 apiClient.interceptors.response.use(
-  (response) => {
+  function (response) {
     return response;
   },
-  (error) => {
-    if (window.location.pathname !== "/" && error.response.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/";
-    }
+  function (error) {
     return Promise.reject(error);
-  }
+  },
 );
 
 export default apiClient;
