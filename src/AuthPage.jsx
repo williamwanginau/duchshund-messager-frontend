@@ -14,10 +14,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useTranslation } from "react-i18next";
 
 const AuthPage = () => {
-  const { t } = useTranslation();
   const defaultTheme = createTheme();
 
   const { setUserData } = useContext(UserContext);

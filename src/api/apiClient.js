@@ -1,4 +1,5 @@
 import axios from "axios";
+import { notify } from "../notifications/notify";
 
 const API_BASE_URL = "http://localhost:3000";
 
@@ -22,8 +23,12 @@ apiClient.interceptors.response.use(
     return response;
   },
   function (error) {
+    if (error.message === "Network Error") {
+      notify("Network Error", "error");
+      return;
+    }
     return Promise.reject(error);
-  },
+  }
 );
 
 export default apiClient;
